@@ -1,3 +1,31 @@
+const CLUBS = [
+  'AJ北海道',
+  'R札幌',
+  'R宮城',
+  'ARいわき',
+  'AJ宇都宮',
+  'A埼玉',
+  'AJ千葉',
+  'AJ群馬',
+  'R東京',
+  'AJ西東京',
+  'AR日本橋',
+  'AJ神奈川',
+  'AJたまがわ',
+  'VCR横浜あおば',
+  'AJ静岡',
+  'AR中部',
+  'RC名古屋',
+  'A近畿',
+  'AJ岡山',
+  'AJ広島',
+  'AR四国',
+  'AJ福岡',
+  'AJ長崎',
+  'R熊本',
+  'AR鹿児島',
+];
+const DISTANCES = [200, 300, 400, 600, 1000, 1300, 1900, 'Fleche', 'Trace'];
 /**
  *
  * @returns {Promise}
@@ -63,6 +91,10 @@ async function loadCalendar() {
         })(row.querySelector('td:nth-child(3)').innerHTML);
         row.classList.add('distance-' + distance);
 
+        const club = row.querySelector(tdNth(2)).innerHTML;
+        if (!CLUBS.includes(club)) {
+          CLUBS.push(club);
+        }
         document.querySelector('#event-table > tbody').appendChild(row);
       }
     });
@@ -150,4 +182,88 @@ function distanceCompare(a, b) {
         this.dataset['sort'] = this.dataset['sort'] * -1;
       });
     });
+
+  CLUBS.forEach((club) => {
+    const tmp = document.importNode(
+      document.querySelector('#filter-item').content,
+      true
+    );
+    tmp.querySelector('label span').innerText = club;
+    tmp.querySelector('input').value = club;
+    tmp.querySelector('input').name = 'clubs';
+    document.querySelector('#club-items').append(tmp);
+  });
+  document
+    .querySelector('#select-all-club')
+    .addEventListener('change', function () {
+      const checked = this.checked;
+      document.querySelectorAll('[name=clubs]').forEach((elem) => {
+        elem.checked = checked;
+      });
+    });
+
+  DISTANCES.forEach((distance) => {
+    const tmp = document.importNode(
+      document.querySelector('#filter-item').content,
+      true
+    );
+    tmp.querySelector('label span').innerText = distance;
+    tmp.querySelector('input').value = distance;
+    tmp.querySelector('input').name = 'distance';
+    document.querySelector('#distance-items').append(tmp);
+  });
+  document
+    .querySelector('#select-all-distance')
+    .addEventListener('change', function () {
+      const checked = this.checked;
+      document.querySelectorAll('[name=distance]').forEach((elem) => {
+        elem.checked = checked;
+      });
+    });
+
+  for (let i = 1; i <= 12; i++) {
+    const tmp = document.importNode(
+      document.querySelector('#filter-item').content,
+      true
+    );
+    tmp.querySelector('label span').innerText = i;
+    tmp.querySelector('input').value = i;
+    tmp.querySelector('input').name = 'month';
+    document.querySelector('#month-items').append(tmp);
+  }
+  document
+    .querySelector('#select-all-month')
+    .addEventListener('change', function () {
+      const checked = this.checked;
+      document.querySelectorAll('[name=month]').forEach((elem) => {
+        elem.checked = checked;
+      });
+    });
+  document.querySelector('#filter-button').addEventListener('click', () => {
+    const shownClub = [];
+    document.querySelectorAll('[name=clubs]:checked').forEach((elem) => {
+      shownClub.push(elem.value);
+    });
+    const shownDistance = [];
+    document.querySelectorAll('[name=distance]:checked').forEach((elem) => {
+      shownDistance.push(elem.value);
+    });
+    const shownMonth = [];
+    document.querySelectorAll('[name=month]:checked').forEach((elem) => {
+      shownMonth.push(parseInt(elem.value));
+    });
+    document.querySelectorAll('#event-table > tbody > tr').forEach((row) => {
+      const isShow =
+        shownClub.includes(row.querySelector(tdNth(2)).innerText) &&
+        shownDistance.includes(row.querySelector(tdNth(3)).innerText) &&
+        shownMonth.includes(
+          parseInt(row.querySelector(tdNth(1)).innerText.split('-')[1])
+        );
+      console.log(
+        shownMonth,
+        parseInt(row.querySelector(tdNth(1)).innerText.split('-')[1])
+      );
+      row.style.display = isShow ? 'table-row' : 'none';
+    });
+  });
 })();

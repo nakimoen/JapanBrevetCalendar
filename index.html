@@ -17,20 +17,66 @@
           >Audax Japan公式データ</a
         >をもとに、ソート機能追加・距離別色付けしたものです。
       </p>
-      <table id="event-table">
-        <thead>
-          <tr>
-            <th id="th-date">開催日</th>
-            <th id="th-club"><button data-sort="1">主催クラブ</button></th>
-            <th id="th-distance"><button data-sort="1">距離</button></th>
-            <th id="th-place"><button data-sort="1">出発地</button></th>
-            <th id="th-event">イベント名</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
+      <div id="filter-box">
+        <div>
+          <button id="filter-button">フィルタリングの実行</button>
+        </div>
+        <hr />
+        <div>
+          <legend>クラブ</legend>
+          <label>
+            <input type="checkbox" id="select-all-club" checked />
+            すべてを選択/解除
+          </label>
+          <div id="club-items"></div>
+        </div>
+        <hr />
+        <div>
+          <legend>距離</legend>
+          <label>
+            <input type="checkbox" id="select-all-distance" checked />
+            すべてを選択/解除
+          </label>
+          <div id="distance-items"></div>
+        </div>
+        <hr />
+        <div>
+          <legend>開催月</legend>
+          <label>
+            <input type="checkbox" id="select-all-month" checked />
+            すべてを選択/解除
+          </label>
+          <div id="month-items"></div>
+        </div>
+      </div>
+
+      <div id="event-table-wrapper">
+        <small
+          >「開催日」・「主催クラブ」・「距離」・「出発地」はボタンを押すとソートできます</small
+        >
+        <table id="event-table">
+          <thead>
+            <tr>
+              <th id="th-date"><button data-sort="1">開催日</button></th>
+              <th id="th-club"><button data-sort="1">主催クラブ</button></th>
+              <th id="th-distance"><button data-sort="1">距離</button></th>
+              <th id="th-place"><button data-sort="1">出発地</button></th>
+              <th id="th-event">イベント名</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
     </main>
     <footer></footer>
+    <template id="filter-item">
+      <div class="filter-item-container">
+        <label>
+          <input type="checkbox" name="" checked />
+          <span></span>
+        </label>
+      </div>
+    </template>
   </body>
   <script src="./index.js"></script>
 </html>
