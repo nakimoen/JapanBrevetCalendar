@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./style.css" />
+    <title>2023ブルベイベントカレンダー</title>
+  </head>
+  <body>
+    <header></header>
+    <main>
+      <h1>2023年度ブルベカレンダー</h1>
+      <p>
+        このサイトは、2023年度開催予定ブルベの<a
+          href="https://www.audax-japan.org/brm/brm-2023%e5%b9%b4%e5%ba%a6%e3%83%96%e3%83%ab%e3%83%99%e3%82%a4%e3%83%99%e3%83%b3%e3%83%88%e9%96%8b%e5%82%ac%e4%ba%88%e5%ae%9a/"
+          >Audax Japan公式データ</a
+        >をもとに、ソート機能追加・距離別色付けしたものです。
+      </p>
+      <table id="event-table">
+        <thead>
+          <tr>
+            <th id="th-date">開催日</th>
+            <th id="th-club"><button data-sort="1">主催クラブ</button></th>
+            <th id="th-distance"><button data-sort="1">距離</button></th>
+            <th id="th-place"><button data-sort="1">出発地</button></th>
+            <th id="th-event">イベント名</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </main>
+    <footer></footer>
+  </body>
+  <script src="./index.js"></script>
+</html>

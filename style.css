@@ -1,0 +1,23 @@
+#event-table > tbody > tr {
+  /* background-color: gray; */
+  /* font-weight: bold; */
+}
+.distance-200 {
+  background-color: lightskyblue;
+}
+.distance-300 {
+  background-color: #93ffad;
+  /* color: #00820a; */
+}
+.distance-400 {
+  background-color: rgb(230, 159, 0);
+  /* color: white; */
+}
+.distance-600 {
+  background-color: rgb(213, 94, 0);
+  /* color: white; */
+}
+.distance-rm {
+  background-color: black;
+  color: white;
+}
