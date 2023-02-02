@@ -46,7 +46,7 @@
   background-color: rgb(213, 94, 0);
   /* color: white; */
 }
-.distance-rm {
+.distance-rm * {
   background-color: black;
-  color: white;
+  color: white !important;
 }

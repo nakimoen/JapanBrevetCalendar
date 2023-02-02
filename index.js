@@ -95,6 +95,14 @@ async function loadCalendar() {
         if (!CLUBS.includes(club)) {
           CLUBS.push(club);
         }
+
+        const nameCell = row.querySelector(tdNth(5));
+        const name = nameCell.innerText;
+        nameCell.innerHTML = `<a href="https://www.google.com/search?q=${name.replaceAll(
+          / /g,
+          'g'
+        )}" target="_blank">${name}</a>`;
+
         document.querySelector('#event-table > tbody').appendChild(row);
       }
     });

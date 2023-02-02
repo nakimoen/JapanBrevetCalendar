@@ -14,34 +14,39 @@
       <p>
         このサイトは、2023年度開催予定ブルベの<a
           href="https://www.audax-japan.org/brm/brm-2023%e5%b9%b4%e5%ba%a6%e3%83%96%e3%83%ab%e3%83%99%e3%82%a4%e3%83%99%e3%83%b3%e3%83%88%e9%96%8b%e5%82%ac%e4%ba%88%e5%ae%9a/"
+          target="_blank"
           >Audax Japan公式データ</a
-        >をもとに、ソート機能追加・距離別色付けしたものです。
+        >をもとに、簡易的なソート機能追加・距離別色付けしたものです。
+        <br />
+        スマホ嫌い勢なので、スマホ用デザインは一切無視しています。すみません。
       </p>
       <div id="kiki">
         <h4>☆☆☆もっと詳細に色々検索したい方へ☆☆☆</h4>
         <p>
           <b>
-            <a href="https://twitter.com/kikierre">KIKIさん</a>という方が、
+            <a href="https://twitter.com/kikierre" target="_blank">KIKIさん</a>
           </b>
-          情報をまとめてサイト（
+          が 国内ブルベ情報をまとめて、
           <big>
             <b
               ><a href="https://kikipedia.notion.site/kikipedia/"
                 >Kikipedia</a
               ></b
             >
-            ）を運営されています。
+            と、いうサイトを運営されています。
           </big>
           <br />
-          エントリー期間や都道府県別に見たりできてかなり便利です！
+          <b> エントリー期間 </b>
+          ・
+          <b>開催地の都道府県</b>等々で、検索できてめちゃくちゃ便利です！
         </p>
       </div>
+      <hr />
+      <hr />
       <div id="filter-box">
         <div>
-          <button id="filter-button">フィルタリングの実行</button>
-        </div>
-        <hr />
-        <div>
+          <big><b>フィルタリング</b></big>
+          <hr />
           <legend>クラブ</legend>
           <label>
             <input type="checkbox" id="select-all-club" checked />
@@ -67,12 +72,26 @@
           </label>
           <div id="month-items"></div>
         </div>
+        <hr />
+        <div>
+          <button id="filter-button">フィルタリングの実行</button>
+        </div>
       </div>
 
       <div id="event-table-wrapper">
-        <small
-          >「開催日」・「主催クラブ」・「距離」・「出発地」はボタンを押すとソートできます</small
-        >
+        <legend>以下リスト内のクリックについて</legend>
+        <ul>
+          <li>
+            「開催日」・「主催クラブ」・「距離」・「出発地」はボタンを押すとソートできます
+          </li>
+          <!-- <li>クラブ名をクリックすると、クラブ公式ホームページを開きます。</li> -->
+          <li>
+            イベント名をクリックすると、イベント名のグーグル検索結果ページを開きます。
+          </li>
+        </ul>
+        <small>
+          <br />
+        </small>
         <table id="event-table">
           <thead>
             <tr>
