@@ -1,3 +1,11 @@
+#kiki {
+  border: red 4px dashed;
+  border-radius: 10px;
+  padding: 5px;
+}
+#kiki > h4 {
+  margin: 0;
+}
 #filter-box {
   margin: 10px;
   padding: 1rem;
