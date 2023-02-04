@@ -26,6 +26,7 @@ const CLUBS = [
   'AR鹿児島',
 ];
 const DISTANCES = [200, 300, 400, 600, 1000, 1300, 1900, 'Fleche', 'Trace'];
+
 /**
  *
  * @returns {Promise}
@@ -119,6 +120,12 @@ async function loadCalendar() {
   addTrimedTable(table);
 }
 
+/**
+ *
+ * @param {Function} comparere
+ * @param {1 | -1} sortType 1:ascending, -1:descending
+ * @param {number} colnum
+ */
 function tableSort(comparere, sortType, colnum) {
   /**
    * @type {HTMLTableElement}
@@ -165,10 +172,24 @@ function distanceCompare(a, b) {
   }
   return adistance - bdistance;
 }
+
+function setCheckAll(selector, name) {
+  document.querySelector(selector).addEventListener('change', function () {
+    const checked = this.checked;
+    document.querySelectorAll(`[name=${name}]`).forEach((elem) => {
+      elem.checked = checked;
+    });
+  });
+}
+
 (() => {
   loadCalendar();
 
   // event
+  document.querySelector('#scrollToTop').addEventListener('click', () => {
+    window.scroll({ top: 0, behavior: 'smooth' });
+  });
+
   document
     .querySelectorAll('#event-table > thead > tr > th')
     .forEach((elem, ind) => {
@@ -201,14 +222,7 @@ function distanceCompare(a, b) {
     tmp.querySelector('input').name = 'clubs';
     document.querySelector('#club-items').append(tmp);
   });
-  document
-    .querySelector('#select-all-club')
-    .addEventListener('change', function () {
-      const checked = this.checked;
-      document.querySelectorAll('[name=clubs]').forEach((elem) => {
-        elem.checked = checked;
-      });
-    });
+  setCheckAll('#select-all-club', 'clubs');
 
   DISTANCES.forEach((distance) => {
     const tmp = document.importNode(
@@ -220,46 +234,33 @@ function distanceCompare(a, b) {
     tmp.querySelector('input').name = 'distance';
     document.querySelector('#distance-items').append(tmp);
   });
-  document
-    .querySelector('#select-all-distance')
-    .addEventListener('change', function () {
-      const checked = this.checked;
-      document.querySelectorAll('[name=distance]').forEach((elem) => {
-        elem.checked = checked;
-      });
-    });
+  setCheckAll('#select-all-distance', 'distance');
 
-  for (let i = 1; i <= 12; i++) {
+  for (let i = 0; i < 12; i++) {
     const tmp = document.importNode(
       document.querySelector('#filter-item').content,
       true
     );
-    tmp.querySelector('label span').innerText = i;
-    tmp.querySelector('input').value = i;
+    const month = 11 + i - (i < 2 ? 0 : 12);
+    tmp.querySelector('label span').innerText = month;
+    tmp.querySelector('input').value = month;
     tmp.querySelector('input').name = 'month';
     document.querySelector('#month-items').append(tmp);
   }
-  document
-    .querySelector('#select-all-month')
-    .addEventListener('change', function () {
-      const checked = this.checked;
-      document.querySelectorAll('[name=month]').forEach((elem) => {
-        elem.checked = checked;
-      });
-    });
+  setCheckAll('#select-all-month', 'month');
+
   document.querySelector('#filter-button').addEventListener('click', () => {
-    const shownClub = [];
-    document.querySelectorAll('[name=clubs]:checked').forEach((elem) => {
-      shownClub.push(elem.value);
-    });
-    const shownDistance = [];
-    document.querySelectorAll('[name=distance]:checked').forEach((elem) => {
-      shownDistance.push(elem.value);
-    });
-    const shownMonth = [];
-    document.querySelectorAll('[name=month]:checked').forEach((elem) => {
-      shownMonth.push(parseInt(elem.value));
-    });
+    function getChecked(name) {
+      const arr = [];
+      document.querySelectorAll(`[name=${name}]:checked`).forEach((elem) => {
+        arr.push(elem.value);
+      });
+      return arr;
+    }
+    const shownClub = getChecked('clubs');
+    const shownDistance = getChecked('distance');
+    const shownMonth = getChecked('month');
+
     document.querySelectorAll('#event-table > tbody > tr').forEach((row) => {
       const isShow =
         shownClub.includes(row.querySelector(tdNth(2)).innerText) &&
@@ -267,10 +268,6 @@ function distanceCompare(a, b) {
         shownMonth.includes(
           parseInt(row.querySelector(tdNth(1)).innerText.split('-')[1])
         );
-      console.log(
-        shownMonth,
-        parseInt(row.querySelector(tdNth(1)).innerText.split('-')[1])
-      );
       row.style.display = isShow ? 'table-row' : 'none';
     });
   });
