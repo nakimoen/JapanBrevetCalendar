@@ -250,16 +250,16 @@ function setCheckAll(selector, name) {
   setCheckAll('#select-all-month', 'month');
 
   document.querySelector('#filter-button').addEventListener('click', () => {
-    function getChecked(name) {
+    function getChecked(name, isInt = false) {
       const arr = [];
       document.querySelectorAll(`[name=${name}]:checked`).forEach((elem) => {
-        arr.push(elem.value);
+        arr.push(isInt ? parseInt(elem.value) : elem.value);
       });
       return arr;
     }
     const shownClub = getChecked('clubs');
     const shownDistance = getChecked('distance');
-    const shownMonth = getChecked('month');
+    const shownMonth = getChecked('month', true);
 
     document.querySelectorAll('#event-table > tbody > tr').forEach((row) => {
       const isShow =
