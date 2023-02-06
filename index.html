@@ -86,23 +86,25 @@
           </li>
           <!-- <li>クラブ名をクリックすると、クラブ公式ホームページを開きます。</li> -->
           <li>
-            イベント名をクリックすると、イベント名のグーグル検索結果ページを開きます。
+            イベント名をクリックすると、イベント名のGoogle検索結果ページを開きます。
           </li>
         </ul>
         <small>
           <br />
         </small>
-        <table id="event-table">
-          <thead>
-            <tr>
-              <th id="th-date"><button data-sort="1">開催日</button></th>
-              <th id="th-club"><button data-sort="1">主催</button></th>
-              <th id="th-distance"><button data-sort="1">距離</button></th>
-              <th id="th-place"><button data-sort="1">出発地</button></th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
+        <div class="d-flex-justify-center">
+          <table id="event-table">
+            <thead>
+              <tr>
+                <th id="th-date"><button data-sort="1">開催日</button></th>
+                <th id="th-club"><button data-sort="1">主催</button></th>
+                <th id="th-distance"><button data-sort="1">距離</button></th>
+                <th id="th-place"><button data-sort="1">出発地</button></th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
       </div>
     </main>
     <footer>©<a href="https://twitter.com/hsnakimoen">nakimoen</a></footer>
@@ -116,6 +118,8 @@
       </div>
     </template>
   </body>
+  <script src="./clubs.js"></script>
+  <script src="./distances.js"></script>
   <script src="./city_yomi.js"></script>
   <script src="./index.js"></script>
 </html>

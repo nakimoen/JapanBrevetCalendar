@@ -1,32 +1,3 @@
-const CLUBS = [
-  'AJ北海道',
-  'R札幌',
-  'R宮城',
-  'ARいわき',
-  'AJ宇都宮',
-  'A埼玉',
-  'AJ千葉',
-  'AJ群馬',
-  'R東京',
-  'AJ西東京',
-  'AR日本橋',
-  'AJ神奈川',
-  'AJたまがわ',
-  'VCR横浜あおば',
-  'AJ静岡',
-  'AR中部',
-  'RC名古屋',
-  'A近畿',
-  'AJ岡山',
-  'AJ広島',
-  'AR四国',
-  'AJ福岡',
-  'AJ長崎',
-  'R熊本',
-  'AR鹿児島',
-];
-const DISTANCES = [200, 300, 400, 600, 1000, 1300, 1900, 'Fleche', 'Trace'];
-
 const THIS_MONTH = (() => {
   const d = new Date();
   d.setDate(1);
@@ -79,7 +50,6 @@ async function loadCalendar() {
    * @param {HTMLTableElement} loadedTable
    */
   const addTrimedTable = (loadedTable) => {
-    const table = document.createElement('table');
     const bodyRow = loadedTable.querySelectorAll(
       'tbody > tr:not(:first-child)'
     );
@@ -91,6 +61,7 @@ async function loadCalendar() {
         row.removeChild(numbercell);
 
         row.querySelector(tdNth(1)).setAttribute('rowspan', '2');
+
         const distance = ((distance) => {
           if (Number.isInteger(parseInt(distance))) {
             return distance > 600 ? 'rm' : distance;
@@ -112,10 +83,7 @@ async function loadCalendar() {
         const titleCell = row.querySelector(tdNth(5));
         titleCell.setAttribute('colspan', 3);
         const title = titleCell.innerText;
-        titleCell.innerHTML = `<a href="https://www.google.com/search?q=${title.replaceAll(
-          / /g,
-          'g'
-        )}" target="_blank">${title}</a>`;
+        titleCell.innerHTML = `<a href="https://www.google.com/search?q=${title}" target="_blank">${title}</a>`;
         titleRow.classList.add('distance-' + distance);
 
         titleRow.appendChild(titleCell);
@@ -126,9 +94,6 @@ async function loadCalendar() {
     });
   };
 
-  //
-  // 処理
-  //
   const caldoc = await getCalendar();
   if (!caldoc) {
     return;
@@ -236,6 +201,13 @@ function setCheckAll(selector, name) {
     });
 
   CLUBS.forEach((club) => {
+    if (/--.*--/.test(club)) {
+      // document
+      //   .querySelector('#club-items')
+      //   .insertAdjacentHTML('beforeend', `<div>${club}</div>`);
+      return;
+    }
+
     const tmp = document.importNode(
       document.querySelector('#filter-item').content,
       true
@@ -255,6 +227,12 @@ function setCheckAll(selector, name) {
     tmp.querySelector('label span').innerText = distance;
     tmp.querySelector('input').value = distance;
     tmp.querySelector('input').name = 'distance';
+    tmp
+      .querySelector('label span')
+      .classList.add(
+        'distance-' +
+          (Number.isInteger(distance) && distance > 600 ? 'rm' : distance)
+      );
     document.querySelector('#distance-items').append(tmp);
   });
   setCheckAll('#select-all-distance', 'distance');
