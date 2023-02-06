@@ -27,6 +27,13 @@ const CLUBS = [
 ];
 const DISTANCES = [200, 300, 400, 600, 1000, 1300, 1900, 'Fleche', 'Trace'];
 
+const THIS_MONTH = (() => {
+  const d = new Date();
+  d.setDate(1);
+  d.setHours(0, 0, 0, 0);
+  return d;
+})();
+const YEAR_OF_BREVET = 2023;
 /**
  *
  * @returns {Promise}
@@ -83,6 +90,7 @@ async function loadCalendar() {
 
         row.removeChild(numbercell);
 
+        row.querySelector(tdNth(1)).setAttribute('rowspan', '2');
         const distance = ((distance) => {
           if (Number.isInteger(parseInt(distance))) {
             return distance > 600 ? 'rm' : distance;
@@ -97,14 +105,23 @@ async function loadCalendar() {
           CLUBS.push(club);
         }
 
-        const nameCell = row.querySelector(tdNth(5));
-        const name = nameCell.innerText;
-        nameCell.innerHTML = `<a href="https://www.google.com/search?q=${name.replaceAll(
+        const cityCell = row.querySelector(tdNth(4));
+        cityCell.dataset.sort = window.CityYomiMap[cityCell.innerText];
+
+        const titleRow = document.createElement('tr');
+        const titleCell = row.querySelector(tdNth(5));
+        titleCell.setAttribute('colspan', 3);
+        const title = titleCell.innerText;
+        titleCell.innerHTML = `<a href="https://www.google.com/search?q=${title.replaceAll(
           / /g,
           'g'
-        )}" target="_blank">${name}</a>`;
+        )}" target="_blank">${title}</a>`;
+        titleRow.classList.add('distance-' + distance);
+
+        titleRow.appendChild(titleCell);
 
         document.querySelector('#event-table > tbody').appendChild(row);
+        document.querySelector('#event-table > tbody').appendChild(titleRow);
       }
     });
   };
@@ -118,6 +135,7 @@ async function loadCalendar() {
   }
   const table = caldoc.querySelector('#sheets-viewport > div > div >table');
   addTrimedTable(table);
+  document.querySelector('#filter-button').click();
 }
 
 /**
@@ -134,23 +152,28 @@ function tableSort(comparere, sortType, colnum) {
   const rowArr = ((rows) => {
     const arr = new Array();
     for (let i = 0; i < rows.length; i++) {
-      arr.push(rows[i]);
+      arr.push({ row1: rows[i], row2: rows[i].nextSibling });
     }
     return arr;
-  })(tbody.rows);
+  })(tbody.querySelectorAll('tr:nth-child(odd)'));
 
   //日付と距離は強制的に昇順
   rowArr
     // .sort((a, b) => distanceCompare(a, b))
-    .sort((a, b) => -stringCompare(a, b, 1))
-    .sort((a, b) => sortType * comparere(a, b, colnum));
+    .sort((a, b) => -stringCompare(a.row1, b.row1, 1))
+    .sort((a, b) => sortType * comparere(a.row1, b.row1, colnum));
   rowArr.forEach((row) => {
-    tbody.appendChild(row);
+    tbody.appendChild(row.row1);
+    tbody.appendChild(row.row2);
   });
 }
 
 function getText(row, colNum) {
-  return row.querySelector(tdNth(colNum)).innerHTML;
+  const cell = row.querySelector(tdNth(colNum));
+  if (cell.dataset.sort) {
+    return cell.dataset.sort;
+  }
+  return cell.dataset.sort ? cell.dataset.sort : cell.innerText;
 }
 function stringCompare(a, b, colnum) {
   return getText(b, colnum).localeCompare(getText(a, colnum));
@@ -245,11 +268,20 @@ function setCheckAll(selector, name) {
     tmp.querySelector('label span').innerText = month;
     tmp.querySelector('input').value = month;
     tmp.querySelector('input').name = 'month';
+
+    const date = (() => {
+      const year = YEAR_OF_BREVET - (month < 11 ? 0 : 1);
+      return new Date(`${year}-${month}-01`);
+    })();
+    if (date.getTime() < THIS_MONTH.getTime()) {
+      tmp.querySelector('input').checked = false;
+    }
     document.querySelector('#month-items').append(tmp);
   }
   setCheckAll('#select-all-month', 'month');
 
-  document.querySelector('#filter-button').addEventListener('click', () => {
+  const filterButton = document.querySelector('#filter-button');
+  filterButton.addEventListener('click', () => {
     function getChecked(name, isInt = false) {
       const arr = [];
       document.querySelectorAll(`[name=${name}]:checked`).forEach((elem) => {
@@ -261,14 +293,19 @@ function setCheckAll(selector, name) {
     const shownDistance = getChecked('distance');
     const shownMonth = getChecked('month', true);
 
-    document.querySelectorAll('#event-table > tbody > tr').forEach((row) => {
-      const isShow =
-        shownClub.includes(row.querySelector(tdNth(2)).innerText) &&
-        shownDistance.includes(row.querySelector(tdNth(3)).innerText) &&
-        shownMonth.includes(
-          parseInt(row.querySelector(tdNth(1)).innerText.split('-')[1])
-        );
-      row.style.display = isShow ? 'table-row' : 'none';
-    });
+    document
+      .querySelectorAll('#event-table > tbody > tr:nth-child(odd)')
+      .forEach((row) => {
+        const isShow =
+          shownClub.includes(row.querySelector(tdNth(2)).innerText) &&
+          shownDistance.includes(row.querySelector(tdNth(3)).innerText) &&
+          shownMonth.includes(
+            parseInt(row.querySelector(tdNth(1)).innerText.split('-')[1])
+          );
+
+        const display = isShow ? 'table-row' : 'none';
+        row.style.display = display;
+        row.nextSibling.style.display = display;
+      });
   });
 })();

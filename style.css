@@ -1,18 +1,46 @@
 body {
   padding-bottom: 1.5rem;
+  min-width: 375px;
 }
 footer {
   width: 100%;
-  background-color: salmon;
+  background-color: gray;
   position: fixed;
   bottom: 0;
   text-align: center;
+  color: white;
 }
-footer button {
-  position: absolute;
-  right: 2rem;
+footer * {
+  color: white;
+}
+button#scrollToTop {
+  position: fixed;
+  bottom: 2rem;
+  right: 1rem;
+  background-color: lightgray;
+  color: black;
+}
+button#scrollToTop:hover {
+  background-color: slategray;
+  color: black;
+}
+button {
+  border: none;
+  border-radius: 3px;
+  background-color: rgb(255, 200, 231);
+  color: rgb(255, 123, 198);
+  font-weight: bold;
+  padding: 1em;
+}
+button:hover {
+  background-color: rgb(255, 123, 198);
+  color: rgb(255, 200, 231);
 }
 
+.d-flex-justify-center {
+  display: flex;
+  justify-content: center;
+}
 #kiki {
   border: red 4px dashed;
   border-radius: 10px;
@@ -36,6 +64,11 @@ footer button {
 .filter-item-container {
   width: 20%;
 }
+@media (max-width: 480px) {
+  .filter-item-container {
+    width: 30%;
+  }
+}
 #filter-items label {
   white-space: nowrap;
 }
@@ -46,11 +79,30 @@ footer button {
 #event-table-wrapper {
   border: 2px black solid;
 }
+#event-table > thead button {
+  width: 100%;
+}
+#event-table > tbody > tr:nth-child(odd) td {
+  border-top: 2px black dotted;
+}
+#event-table > tbody > tr td:nth-child(1) {
+  white-space: nowrap;
+}
+#event-table > tbody > tr td {
+  width: 25%;
+}
+
+/* #event-table > tbody > tr td:nth-child(3) {
+  width: 5rem;
+}
+#event-table > tbody > tr td:nth-child(4) {
+  width: 5.2rem;
+} */
 .distance-200 {
-  background-color: lightskyblue;
+  background-color: #93ffad;
 }
 .distance-300 {
-  background-color: #93ffad;
+  background-color: lightskyblue;
   /* color: #00820a; */
 }
 .distance-400 {

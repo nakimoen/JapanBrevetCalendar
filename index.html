@@ -73,7 +73,7 @@
           <div id="month-items"></div>
         </div>
         <hr />
-        <div>
+        <div class="d-flex-justify-center">
           <button id="filter-button">フィルタリングの実行</button>
         </div>
       </div>
@@ -96,20 +96,17 @@
           <thead>
             <tr>
               <th id="th-date"><button data-sort="1">開催日</button></th>
-              <th id="th-club"><button data-sort="1">主催クラブ</button></th>
+              <th id="th-club"><button data-sort="1">主催</button></th>
               <th id="th-distance"><button data-sort="1">距離</button></th>
               <th id="th-place"><button data-sort="1">出発地</button></th>
-              <th id="th-event">イベント名</th>
             </tr>
           </thead>
           <tbody></tbody>
         </table>
       </div>
     </main>
-    <footer>
-      ©<a href="https://twitter.com/hsnakimoen">nakimoen</a>
-      <button id="scrollToTop">↑ページトップへスクロール</button>
-    </footer>
+    <footer>©<a href="https://twitter.com/hsnakimoen">nakimoen</a></footer>
+    <button id="scrollToTop">⇧ページトップ</button>
     <template id="filter-item">
       <div class="filter-item-container">
         <label>
@@ -119,5 +116,6 @@
       </div>
     </template>
   </body>
+  <script src="./city_yomi.js"></script>
   <script src="./index.js"></script>
 </html>
