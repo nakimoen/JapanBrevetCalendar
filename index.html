@@ -15,24 +15,45 @@
         このサイトは、2023年度開催予定ブルベの<a
           href="https://www.audax-japan.org/brm/brm-2023%e5%b9%b4%e5%ba%a6%e3%83%96%e3%83%ab%e3%83%99%e3%82%a4%e3%83%99%e3%83%b3%e3%83%88%e9%96%8b%e5%82%ac%e4%ba%88%e5%ae%9a/"
           target="_blank"
-          >Audax Japan公式データ</a
-        >をもとに、簡易的なソート機能追加・距離別色付けしたものです。
+          rel="noopener"
+        >
+          Audax Japan公式データ
+        </a>
+        をもとに、簡易的なソート機能追加・距離別色付けしたものです。
         <br />
         スマホ嫌いおじさんなので、スマホ用デザインは一切無視しています。
+      </p>
+      <p>
+        <a
+          target="_blank"
+          href="https://docs.google.com/spreadsheets/d/1wrftbjCWkzrn12vy5DhL0jpbmx_8ik4nw2wypUAS6Ho/edit?usp=sharing"
+          rel="noopener"
+          >400km100周年記念ブルベリスト</a
+        >
       </p>
       <div id="kiki">
         <h4>☆☆☆もっと詳細に色々検索したい方へ☆☆☆</h4>
         <p>
           <b>
-            <a href="https://twitter.com/kikierre" target="_blank">KIKIさん</a>
+            <a
+              href="https://twitter.com/kikierre"
+              target="_blank"
+              rel="noopener"
+            >
+              KIKIさん
+            </a>
           </b>
           が 国内ブルベ情報をまとめて、
           <big>
             <b
-              ><a href="https://kikipedia.notion.site/kikipedia/"
-                >Kikipedia</a
-              ></b
-            >
+              ><a
+                href="https://kikipedia.notion.site/kikipedia/"
+                target="_blank"
+                rel="noopener"
+              >
+                Kikipedia
+              </a>
+            </b>
             と、いうサイトを運営されています。
           </big>
           <br />
@@ -48,7 +69,7 @@
           <big><b>フィルタリング</b></big>
           <hr />
           <legend>クラブ</legend>
-          <label>
+          <label class="border-rounded">
             <input type="checkbox" id="select-all-club" checked />
             すべてを選択/解除
           </label>
@@ -57,7 +78,7 @@
         <hr />
         <div>
           <legend>距離</legend>
-          <label>
+          <label class="border-rounded">
             <input type="checkbox" id="select-all-distance" checked />
             すべてを選択/解除
           </label>
@@ -66,8 +87,8 @@
         <hr />
         <div>
           <legend>開催月</legend>
-          <label>
-            <input type="checkbox" id="select-all-month" checked />
+          <label class="border-rounded">
+            <input type="checkbox" id="select-all-month" />
             すべてを選択/解除
           </label>
           <div id="month-items"></div>
@@ -118,8 +139,8 @@
       </div>
     </template>
   </body>
-  <script src="./clubs.js"></script>
-  <script src="./distances.js"></script>
-  <script src="./city_yomi.js"></script>
+  <script src="../data/clubs.js"></script>
+  <script src="../data/distances.js"></script>
+  <script src="../data/city_yomi.js"></script>
   <script src="./index.js"></script>
 </html>

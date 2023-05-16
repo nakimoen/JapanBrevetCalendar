@@ -54,6 +54,7 @@ async function loadCalendar() {
       'tbody > tr:not(:first-child)'
     );
     bodyRow.forEach((row) => {
+      // TODO: use template tag
       for (const attribute of row.attributes) {
         row.removeAttribute(attribute.name);
         const numbercell = row.querySelector('th');
@@ -62,14 +63,18 @@ async function loadCalendar() {
 
         row.querySelector(tdNth(1)).setAttribute('rowspan', '2');
 
+        const distanceCell = row.querySelector('td:nth-child(3)');
         const distance = ((distance) => {
           if (Number.isInteger(parseInt(distance))) {
             return distance > 600 ? 'rm' : distance;
           } else {
             return 'others';
           }
-        })(row.querySelector('td:nth-child(3)').innerHTML);
-        row.classList.add('distance-' + distance);
+        })(distanceCell.innerHTML);
+
+        distanceCell.classList.add('distance-' + distance);
+
+        // row.classList.add('distance-' + distance);
 
         const club = row.querySelector(tdNth(2)).innerHTML;
         if (!CLUBS.includes(club)) {
@@ -84,7 +89,7 @@ async function loadCalendar() {
         titleCell.setAttribute('colspan', 3);
         const title = titleCell.innerText;
         titleCell.innerHTML = `<a href="https://www.google.com/search?q=${title}" target="_blank">${title}</a>`;
-        titleRow.classList.add('distance-' + distance);
+        // titleRow.classList.add('distance-' + distance);
 
         titleRow.appendChild(titleCell);
 
@@ -166,6 +171,7 @@ function setCheckAll(selector, name) {
     const checked = this.checked;
     document.querySelectorAll(`[name=${name}]`).forEach((elem) => {
       elem.checked = checked;
+      sessionStorage.setItem(elem.id, checked);
     });
   });
 }
@@ -215,6 +221,7 @@ function setCheckAll(selector, name) {
     tmp.querySelector('label span').innerText = club;
     tmp.querySelector('input').value = club;
     tmp.querySelector('input').name = 'clubs';
+    tmp.querySelector('input').id = 'club-' + club;
     document.querySelector('#club-items').append(tmp);
   });
   setCheckAll('#select-all-club', 'clubs');
@@ -227,6 +234,7 @@ function setCheckAll(selector, name) {
     tmp.querySelector('label span').innerText = distance;
     tmp.querySelector('input').value = distance;
     tmp.querySelector('input').name = 'distance';
+    tmp.querySelector('input').id = 'distance-' + distance;
     tmp
       .querySelector('label span')
       .classList.add(
@@ -246,6 +254,7 @@ function setCheckAll(selector, name) {
     tmp.querySelector('label span').innerText = month;
     tmp.querySelector('input').value = month;
     tmp.querySelector('input').name = 'month';
+    tmp.querySelector('input').id = 'month-' + month;
 
     const date = (() => {
       const year = YEAR_OF_BREVET - (month < 11 ? 0 : 1);
@@ -286,4 +295,20 @@ function setCheckAll(selector, name) {
         row.nextSibling.style.display = display;
       });
   });
+
+  // save
+  document.querySelectorAll('input[type=checkbox]').forEach((checkbox) => {
+    checkbox.addEventListener('change', function () {
+      sessionStorage.setItem(checkbox.id, checkbox.checked);
+    });
+  });
+
+  // restore
+  for (let i = 0; i < sessionStorage.length; i++) {
+    const key = sessionStorage.key(i);
+    const elem = document.getElementById(key);
+    if (elem) {
+      elem.checked = sessionStorage.getItem(key) == 'true';
+    }
+  }
 })();
