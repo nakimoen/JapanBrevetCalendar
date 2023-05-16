@@ -308,7 +308,8 @@ function setCheckAll(selector, name) {
     const key = sessionStorage.key(i);
     const elem = document.getElementById(key);
     if (elem) {
-      elem.checked = sessionStorage.getItem(key) == 'true';
+      const flag = sessionStorage.getItem(key);
+      elem.checked = flag == 'true';
     }
   }
 })();
